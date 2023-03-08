@@ -1,0 +1,7 @@
+{
+    "image": "roccowang/maelstrom_go:1.0.0",
+    "extensions": [
+        "golang.go"
+    ],
+    "postStartCommand": "git config --global --add safe.directory ${containerWorkspaceFolder}"
+}
