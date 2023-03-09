@@ -1,3 +1,7 @@
-https://fly.io/dist-sys
+my solutions to [https://fly.io/dist-sys](https://fly.io/dist-sys)
 
-use `.devcontainer` with VSCode
+# use `.devcontainer` with VSCode
+
+Usage: just use open this repo in vscode and run `> Dev Containers: Reopen in Container` in command pallette
+
+this `.devcontainer` has all the prerequisites installed so you can start playing around with `maelstrom` and `go(1.20.2)` right away.

@@ -6,4 +6,5 @@ use (
 	./ch3a-broadcast
 	./ch3b-multi-broadcast
 	./ch3b2
+	./ch3c-fault-tolerant
 )
