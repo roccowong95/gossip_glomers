@@ -7,4 +7,5 @@ use (
 	./ch3b-multi-broadcast
 	./ch3b2
 	./ch3c-fault-tolerant
+	./ch3d-effiency-p1
 )
