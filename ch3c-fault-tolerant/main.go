@@ -71,15 +71,20 @@ func (s *server) Broadcast(msg maelstrom.Message) error {
 	return s.n.Reply(msg, rsp)
 }
 
-func (s *server) doBroadcast(from string, req any) {
-	for _, node := range s.neighbours {
+func (s *server) doBroadcast(from string, req BroadcastReq) {
+	values := s.getValues()
+	for _, node := range s.neighbours { // only send message to neighbours
 		if node == s.n.ID() { // do not send to self
 			continue
 		}
 		if node == from { // do not send back
 			continue
 		}
-		s.n.Send(node, req)
+
+		for _, v := range values { // broadcast all
+			req.Message = v
+			s.n.Send(node, req)
+		}
 	}
 }
 
@@ -100,7 +105,7 @@ func (s *server) Topology(msg maelstrom.Message) error {
 		return err
 	}
 
-	s.neighbours = req.Topology[s.n.ID()]
+	s.neighbours = req.Topology[s.n.ID()] // only care about neighbours
 
 	rsp := maelstrom.MessageBody{Type: "topology_ok"}
 	return s.n.Reply(msg, rsp)
