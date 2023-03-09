@@ -1,7 +1,11 @@
 {
-    "image": "roccowang/maelstrom_go:1.0.0",
-    "extensions": [
-        "golang.go"
-    ],
+    "image": "roccowang/maelstrom_go:2.0.0",
+    "customizations": {
+        "vscode": {
+            "extensions": [
+                "golang.go"
+            ]
+        }
+    },
     "postStartCommand": "git config --global --add safe.directory ${containerWorkspaceFolder}"
 }
