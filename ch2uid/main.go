@@ -3,28 +3,42 @@ package main
 import (
 	"fmt"
 	"log"
+	"sync/atomic"
 
 	maelstrom "github.com/jepsen-io/maelstrom/demo/go"
 )
 
+// UIDMessage wraps id around common msg
+type UIDMessage struct {
+	maelstrom.MessageBody
+	ID any `json:"id"`
+}
+
+// UIDServer interface
+type UIDServer interface {
+	Generate(msg maelstrom.Message) error
+}
+
+type naiveServer struct {
+	cnt  int64
+	node *maelstrom.Node
+}
+
+// Generate generate uid
+func (s *naiveServer) Generate(msg maelstrom.Message) error {
+	defer atomic.AddInt64(&s.cnt, 1)
+	var rsp UIDMessage
+	rsp.Type = "generate_ok"
+	rsp.MsgID = int(s.cnt)
+	rsp.ID = fmt.Sprintf("%s_%d", s.node.ID(), s.cnt)
+	return s.node.Reply(msg, rsp)
+}
+
 func main() {
-	cnt := 1
 	n := maelstrom.NewNode()
-	n.Handle("init", func(msg maelstrom.Message) error {
-		defer func() { cnt++ }()
-		var reply maelstrom.MessageBody
-		reply.Type = "init_ok"
-		reply.MsgID = cnt
-		return n.Reply(msg, reply)
-	})
-	n.Handle("generate", func(msg maelstrom.Message) error {
-		defer func() { cnt++ }()
-		r := make(map[string]any)
-		r["type"] = "generate_ok"
-		r["msg_id"] = cnt
-		r["id"] = fmt.Sprintf("%s_%d", n.ID(), cnt)
-		return n.Reply(msg, r)
-	})
+	// init message is handled by node itself
+	s := &naiveServer{node: n}
+	n.Handle("generate", s.Generate)
 	if err := n.Run(); err != nil {
 		log.Fatal(err)
 	}
