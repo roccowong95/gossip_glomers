@@ -1,4 +1,4 @@
-module maelstrom-echo
+module ch3b2
 
 go 1.20
 

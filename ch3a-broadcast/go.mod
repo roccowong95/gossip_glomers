@@ -1,4 +1,4 @@
-module maelstrom-uid
+module ch3a
 
 go 1.20
 
