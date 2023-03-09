@@ -1,4 +1,4 @@
-my solutions to [https://fly.io/dist-sys](https://fly.io/dist-sys)
+my solutions to [Gossip Glomers Challenges](https://fly.io/dist-sys)
 
 # use `.devcontainer` with VSCode
 
