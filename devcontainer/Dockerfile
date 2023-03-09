@@ -8,6 +8,7 @@ ADD --chown=splatoon \
     https://github.com/jepsen-io/maelstrom/releases/download/v0.2.3/maelstrom.tar.bz2 \
     /home/splatoon/
 RUN echo 'export PATH="/home/splatoon/maelstrom/:/home/splatoon/go/bin:/home/splatoon/jdk-19.0.2/bin:${PATH}"' >> /etc/bash.bashrc
+# do not use root
 USER splatoon
 RUN \
     cd /home/splatoon && ls -lh /home/splatoon && \
